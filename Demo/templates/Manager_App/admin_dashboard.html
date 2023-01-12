@@ -1,0 +1,44 @@
+{% extends 'base.html' %}  {% block title_block %}
+Admin Dashboard {% endblock %} {% block body_block %}
+<div class="text-center justify-content-center mt-4 p-4">
+    <h1 CLASS="align-center">Invoice Table</h1>
+</div>
+<table id="example" class="table table-striped m-3 p-3" style="width:100%">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Payment Status</th>
+        <th>Payable Amount</th>
+        <th>Paid Amount</th>
+        <th>Due Date</th>
+        <th>Receive Amount</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for invoice in invoices %}
+    <tr>
+        <td>{{invoice}}</td>
+        <td>
+            {% now "Y-m-d" as todays_date %}
+            {% if todays_date > invoice.dueDate|date:"Y-m-d" and invoice.initialPayableAmount > invoice.paidAmount %}
+            <p>Due</p>
+            {% else %}
+            <p>{{invoice.paymentStatus}}</p>
+            {% endif %}
+        </td>
+        <td>{{invoice.initialPayableAmount}}</td>
+        <td>{{invoice.paidAmount}}</td>
+        <td>{{invoice.dueDate}}</td>
+        <td>
+            <form method="POST" action="{% url 'Manager:payInvoice' invoice.id %}">
+                {% csrf_token %}
+                <input type="number" name="paidAmount" required>
+                <input type="submit">
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

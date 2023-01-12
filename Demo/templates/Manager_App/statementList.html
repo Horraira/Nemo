@@ -1,0 +1,27 @@
+{% extends 'base.html' %}  {% block title_block %}
+Statement List {% endblock %} {% block body_block %}
+<div class="text-center justify-content-center mt-4 p-4">
+    <h1 CLASS="align-center">Statement List</h1>
+</div>
+<table id="example" class="table table-striped m-3 p-3" style="width:100%">
+    <thead>
+    <tr>
+        <th>Creation Date</th>
+        <th>User</th>
+        <th>View Statement</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for customer in customers %}
+    <tr>
+        <td>{{customer.date_created}}</td>
+        <td>{{customer}}</td>
+        <td><a href="{% url 'Manager:statement' customer.user.id %}">Go to detail view</a></td>
+        <td>Delete/Edit</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

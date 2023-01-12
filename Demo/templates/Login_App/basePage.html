@@ -1,0 +1,85 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8"/>
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- css link -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}"/>
+
+    <!-- Bootstrap CSS -->
+    <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous"
+    />
+
+    <title>
+        Initial Page
+    </title>
+</head>
+
+<body>
+<!--base nav bar-->
+<nav class="navbar navbar-light bg-light justify-content-center">
+    <span class="navbar-brand mb-0 h1">Demo Site</span>
+</nav>
+
+<!-- body part -->
+<div class="container mt-2">
+    <div class="row">
+        <div class="col d-flex justify-content-center mt-5">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title text-center">General User</h5>
+                    <h6 class="card-subtitle mb-2 text-muted text-center">Login/Register</h6>
+                    <p class="card-text text-justify">General user can view their own invoice and statements. They also
+                        can pay the invoice balance and view their statement details.</p>
+                    <div class="d-flex justify-content-center">
+                        <a href="{% url 'Login:login' %}" class="card-link">Login Page</a>
+                        <a href="{% url 'Login:userReg' %}" class="card-link">Register Page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex justify-content-center mt-5">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Admin User</h5>
+                    <h6 class="card-subtitle mb-2 text-muted text-center">Login/Register</h6>
+                    <p class="card-text text-justify">Admin user can create a new invoice for any particular user.
+                    Admin can view all the invoice details, statement details and user details.</p>
+                    <div class="d-flex justify-content-center">
+                        <a href="{% url 'Login:login' %}" class="card-link">Login Page</a>
+                        <a href="{% url 'Login:adminReg' %}" class="card-link">Register Page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"
+></script>
+</body>
+</html>

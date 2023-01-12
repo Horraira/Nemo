@@ -1,0 +1,33 @@
+{% extends 'base.html' %}  {% block title_block %}
+Statement {% endblock %} {% block body_block %}
+<div class="text-center justify-content-center mt-4 p-4">
+    <h1 CLASS="align-center">Statement</h1>
+</div>
+<table id="example" class="table table-striped m-3 p-3" style="width:100%">
+    <thead>
+    <tr>
+        <th>Creation Date</th>
+        <th>Invoice ID</th>
+        <th>Payable Amount</th>
+        <th>Debit</th>
+        <th>Credit</th>
+        <th>Balance</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for statement in statements %}
+    <tr>
+        <td>{{statement.date_created}}</td>
+        <td>{{statement.invoice.id}}</td>
+        <td>{{statement.invoice.updatedPayableAmount}}</td>
+        <td>{{statement.debit}}</td>
+        <td>{{statement.credit}}</td>
+        <td>{{statement.balance}}</td>
+        <td>Delete</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
