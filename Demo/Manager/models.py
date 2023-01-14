@@ -35,6 +35,6 @@ class Statement(models.Model):
     debit = models.IntegerField(default=0, blank=True, null=True)
     credit = models.IntegerField(default=0, blank=True, null=True)
     balance = models.IntegerField(default=0, blank=True, null=True)
-    totalBalance = models.IntegerField(default=0, blank=True, null=True)
-    updateBalance = models.IntegerField(default=0, blank=True, null=True)
+    # totalBalance = models.IntegerField(default=0, blank=True, null=True)
+    # updateBalance = models.IntegerField(default=0, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)

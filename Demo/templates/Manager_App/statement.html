@@ -8,7 +8,6 @@ Statement {% endblock %} {% block body_block %}
     <tr>
         <th>Creation Date</th>
         <th>Invoice ID</th>
-        <th>Payable Amount</th>
         <th>Debit</th>
         <th>Credit</th>
         <th>Balance</th>
@@ -19,14 +18,13 @@ Statement {% endblock %} {% block body_block %}
     <tr>
         <td>{{statement.date_created}}</td>
         <td>{{statement.invoice.id}}</td>
-        <td>{{statement.invoice.updatedPayableAmount}}</td>
         <td>{{statement.debit}}</td>
         <td>{{statement.credit}}</td>
         <td>{{statement.balance}}</td>
     </tr>
     {% endfor %}
     <tr>
-        <th colspan="5">Total Balance</th>
+        <th colspan="4">Total Balance</th>
         <th>{{totalBalance}}</th>
     </tr>
     </tbody>
