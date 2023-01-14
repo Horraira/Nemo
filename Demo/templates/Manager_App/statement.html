@@ -12,7 +12,6 @@ Statement {% endblock %} {% block body_block %}
         <th>Debit</th>
         <th>Credit</th>
         <th>Balance</th>
-        <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -24,9 +23,12 @@ Statement {% endblock %} {% block body_block %}
         <td>{{statement.debit}}</td>
         <td>{{statement.credit}}</td>
         <td>{{statement.balance}}</td>
-        <td>Delete</td>
     </tr>
     {% endfor %}
+    <tr>
+        <th colspan="5">Total Balance</th>
+        <th>{{totalBalance}}</th>
+    </tr>
     </tbody>
 </table>
 

@@ -6,17 +6,20 @@ Admin Dashboard {% endblock %} {% block body_block %}
 <table id="example" class="table table-striped m-3 p-3" style="width:100%">
     <thead>
     <tr>
+        <th>Invoice ID</th>
         <th>Name</th>
         <th>Payment Status</th>
         <th>Payable Amount</th>
         <th>Paid Amount</th>
         <th>Due Date</th>
         <th>Receive Amount</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>
     {% for invoice in invoices %}
     <tr>
+        <td>{{invoice.id}}</td>
         <td>{{invoice}}</td>
         <td>
             {% now "Y-m-d" as todays_date %}
@@ -36,6 +39,7 @@ Admin Dashboard {% endblock %} {% block body_block %}
                 <input type="submit">
             </form>
         </td>
+        <td><a href="{% url 'Manager:deleteInvoice' invoice.id %}" class="btn btn-small btn-danger">Delete</a></td>
     </tr>
     {% endfor %}
     </tbody>

@@ -10,4 +10,5 @@ urlpatterns = [
     path('pay/<invoiceID>', views.payInvoice, name='payInvoice'),
     path('statementList/', views.statementList, name="statementList"),
     path('statement/<customer>', views.statement, name="statement"),
+    path('deleteInvoice/<invoiceId>', views.deleteInvoice, name="deleteInvoice"),
 ]

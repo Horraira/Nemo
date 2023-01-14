@@ -13,18 +13,6 @@ def userDashboard(request):
     return render(request, 'Manager_App/user_dashboard.html')
 
 
-def calculateBalance():
-    pass
-
-
-def calculateCredit():
-    pass
-
-
-def calculateDebit():
-    pass
-
-
 def adminDashboard(request):
     invoices = Invoice.objects.all()
     context = {'invoices': invoices}
@@ -37,11 +25,21 @@ def createInvoice(request):
         statementForm = StatementForm(request.POST)
 
         if form.is_valid() and statementForm.is_valid():
-            invoiceObj = form.save()
-            statement = statementForm.save(commit=False)
-            statement.invoice = invoiceObj
-            statement.debit = invoiceObj.updatedPayableAmount
-            statement.save()
+            user = form.cleaned_data['user']
+            if Invoice.objects.filter(user=user).exists():
+                preUpdateBalance = Statement.objects.filter(invoice__user=user).order_by(
+                    'date_created').last().updateBalance
+                invoiceObj = form.save()
+                statement = statementForm.save(commit=False)
+                statement.invoice = invoiceObj
+                statement.debit = statement.balance = statement.updateBalance = invoiceObj.updatedPayableAmount + preUpdateBalance
+                statement.save()
+            else:
+                invoiceObj = form.save()
+                statement = statementForm.save(commit=False)
+                statement.invoice = invoiceObj
+                statement.debit = statement.balance = statement.updateBalance = invoiceObj.updatedPayableAmount
+                statement.save()
             return HttpResponseRedirect(reverse('Manager:adminDashboard'))
         else:
             messages.info(request, 'Something went wrong')
@@ -50,6 +48,28 @@ def createInvoice(request):
 
     context = {'form': form}
     return render(request, 'Manager_App/invoice.html', context)
+
+
+def deleteInvoice(request, invoiceId):
+    invoice = Invoice.objects.get(id=invoiceId)
+    statements = Statement.objects.filter(invoice__user=invoice.user).order_by('date_created')
+    preBalance = 0
+    for statement in statements:
+        if int(statement.invoice.id) == int(invoiceId):
+            invoice.delete()
+            break
+        else:
+            preBalance = statement.balance
+            dateCreated = statement.date_created
+    statements = Statement.objects.filter(invoice__user=invoice.user, date_created__gt=dateCreated).order_by(
+        'date_created')
+    for statement in statements:
+        preBalance = statement.balance = preBalance + statement.debit - statement.credit
+        statement.save()
+
+    invoices = Invoice.objects.all()
+    context = {'invoices': invoices}
+    return render(request, 'Manager_App/admin_dashboard.html', context)
 
 
 def payInvoice(request, invoiceID):
@@ -69,12 +89,15 @@ def payInvoice(request, invoiceID):
         invoice.updatedPayableAmount = initialPayableAmount - paidAmount
 
         # calculate statement
+        preUpdateBalance = Statement.objects.filter(invoice__user=invoice.user).order_by(
+            'date_created').last().updateBalance
         statementForm = StatementForm(request.POST)
         statement = statementForm.save(commit=False)
         statement.invoice = invoice
-        statement.debit = initialPayableAmount - paidAmount
+        statement.debit = 0
         statement.credit = paidAmount
-        statement.balance = paidAmount
+        statement.balance = preUpdateBalance - int(request.POST['paidAmount'])
+        statement.updateBalance = preUpdateBalance - int(request.POST['paidAmount'])
 
         statement.save()
         invoice.save()
@@ -88,6 +111,12 @@ def statementList(request):
 
 
 def statement(request, customer):
-    statements = Statement.objects.filter(invoice__user__user=customer)
-    context = {'statements': statements}
+    statements = Statement.objects.filter(invoice__user__user=customer).order_by('date_created')
+    totalBalance = 0
+    for statement in statements:
+        totalBalance = + statement.updateBalance
+    if not statements:
+        messages.info(request, 'No statement has created.')
+        return HttpResponseRedirect(reverse('Manager:statementList'))
+    context = {'statements': statements, 'totalBalance': totalBalance}
     return render(request, 'Manager_App/statement.html', context)
