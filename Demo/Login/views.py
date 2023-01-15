@@ -6,17 +6,18 @@ from .forms import *
 from django.contrib.auth.models import Group
 from django.contrib import messages
 from .models import *
+from .decorators import *
 from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
 
-
+@unauthenticated_user
 def basePage(request):
     return render(request, 'Login_App/basePage.html')
 
 
-# @unauthenticated_user
+@unauthenticated_user
 def userLogin(request):
     form = AuthenticationForm()
     if request.method == 'POST':

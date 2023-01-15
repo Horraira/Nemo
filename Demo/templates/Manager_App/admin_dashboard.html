@@ -23,7 +23,7 @@ Admin Dashboard {% endblock %} {% block body_block %}
         <td>{{invoice}}</td>
         <td>
             {% now "Y-m-d" as todays_date %}
-            {% if todays_date > invoice.dueDate|date:"Y-m-d" and invoice.initialPayableAmount > invoice.paidAmount %}
+            {% if todays_date > invoice.dueDate|date:"Y-m-d" and invoice.paidAmount == 0 %}
             <p>Due</p>
             {% else %}
             <p>{{invoice.paymentStatus}}</p>
@@ -39,8 +39,40 @@ Admin Dashboard {% endblock %} {% block body_block %}
                 <input type="submit">
             </form>
         </td>
-        <td><a href="{% url 'Manager:deleteInvoice' invoice.id %}" class="btn btn-small btn-danger">Delete</a></td>
+        <td>
+            <button
+                    type="button"
+                    data-toggle="modal"
+                    data-target="#id{{invoice.id}}"
+                    class="btn btn-small btn-danger"
+                    >
+                Delete
+            </button>
+        </td>
     </tr>
+
+    <!-- Modal -->
+    <div class="modal fade" id="id{{invoice.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ invoice.id }} || {{invoice}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h4>Are you sure about deleting this Invoice?</h4>
+                </div>
+                <div class="modal-footer">
+                    <a href="{% url 'Manager:deleteInvoice' invoice.id %}" class="btn btn-small btn-danger">Delete</a>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal End -->
     {% endfor %}
     </tbody>
 </table>

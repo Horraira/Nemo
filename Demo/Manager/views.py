@@ -68,9 +68,7 @@ def deleteInvoice(request, invoiceId):
         preBalance = statement.balance = preBalance + statement.debit - statement.credit
         statement.save()
 
-    invoices = Invoice.objects.all()
-    context = {'invoices': invoices}
-    return render(request, 'Manager_App/admin_dashboard.html', context)
+    return HttpResponseRedirect(reverse('Manager:adminDashboard'))
 
 
 def payInvoice(request, invoiceID):
